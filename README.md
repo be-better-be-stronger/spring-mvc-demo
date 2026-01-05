@@ -26,6 +26,7 @@ This repository is used as a **main portfolio project** to demonstrate:
 
 ## 🏗️ Architecture Overview
 
+```
 Client (Browser)
 ↓
 DispatcherServlet
@@ -39,7 +40,7 @@ Service Layer (@Transactional)
 DAO Layer (Hibernate / JPA)
 ↓
 MySQL
-
+```
 
 - **View**: JSP + JSTL (Server-Side Rendering)
 - **ORM**: Hibernate / JPA
