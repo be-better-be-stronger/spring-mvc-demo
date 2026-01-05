@@ -1,174 +1,203 @@
 # spring-mvc-demo
 
-## 📌 Giới thiệu
+## 📌 Overview
 
-**spring-mvc-demo** là một dự án **Java Web sử dụng Spring MVC thuần (không Spring Boot)**, được xây dựng với mục tiêu **hiểu sâu bản chất Spring**, tổ chức code theo **chuẩn enterprise**, và mô phỏng một **mini e-commerce system** hoàn chỉnh.
+**spring-mvc-demo** is a **Java Web application built with pure Spring MVC (non-Spring Boot)**, designed to demonstrate a **deep understanding of Spring MVC internals**, **enterprise-style architecture**, and **real-world e-commerce business logic**.
 
-Dự án này được dùng làm **portfolio chính** để chứng minh năng lực:
+The project simulates a **mini e-commerce system** with product management, cart, order processing, authentication, authorization, and centralized exception handling.
 
-* Spring MVC core (DispatcherServlet, HandlerMapping, HandlerAdapter, ViewResolver)
-* Thiết kế kiến trúc phân tầng rõ ràng
-* Xử lý nghiệp vụ Cart / Order chuẩn transaction
-* Exception handling & authentication thực tế
-
----
-
-## 🎯 Mục tiêu
-
-* Làm chủ **Spring MVC (non-Boot)** thay vì chỉ dùng auto-config
-* Hiểu rõ **luồng request-response** trong Spring
-* Áp dụng **enterprise mindset** khi tổ chức code
-* Tách biệt rõ **Controller – Service – DAO – Domain – View**
-* Xây dựng Cart / Order giống hệ thống thực tế
+This repository is used as a **main portfolio project** to demonstrate:
+- Core Spring MVC knowledge (DispatcherServlet, HandlerMapping, HandlerAdapter, ViewResolver)
+- Clean layered architecture (Controller – Service – DAO – Domain – View)
+- Transaction-safe Cart / Order design
+- Production-minded validation, security, and exception handling
 
 ---
 
-## 🏗️ Kiến trúc tổng thể
+## 🎯 Project Goals
 
-```
+- Master **Spring MVC core (non-Boot)** instead of relying on auto-configuration
+- Understand the **full request–response lifecycle** in Spring MVC
+- Apply an **enterprise mindset** when organizing code
+- Clearly separate responsibilities across layers
+- Design Cart and Order logic similar to real production systems
+
+---
+
+## 🏗️ Architecture Overview
+
 Client (Browser)
-   ↓
+↓
 DispatcherServlet
-   ↓
+↓
 HandlerMapping → HandlerAdapter
-   ↓
+↓
 @Controller
-   ↓
+↓
 Service Layer (@Transactional)
-   ↓
+↓
 DAO Layer (Hibernate / JPA)
-   ↓
+↓
 MySQL
-```
 
-* **View**: JSP + JSTL (SSR)
-* **ORM**: Hibernate / JPA
-* **Transaction**: Spring @Transactional
 
----
-
-## 🧱 Công nghệ sử dụng
-
-* Java 17
-* Spring MVC (Java Config)
-* Hibernate / JPA
-* JSP / JSTL
-* MySQL
-* Apache Tomcat 10
-* Maven
-* SLF4J + Logback
+- **View**: JSP + JSTL (Server-Side Rendering)
+- **ORM**: Hibernate / JPA
+- **Transaction Management**: Spring `@Transactional`
 
 ---
 
-## 📂 Cấu trúc dự án (rút gọn)
+## 🧱 Technology Stack
 
-```
+- Java 17
+- Spring MVC (Java-based configuration)
+- Hibernate / JPA
+- JSP / JSTL
+- MySQL
+- Apache Tomcat 10
+- Maven
+- SLF4J + Logback
+
+---
+
+## 📂 Project Structure (Simplified)
+
 com.demo
-├── config          # Spring, JPA, Web config
-├── security        # AuthInterceptor, session keys
+├── config # Spring MVC & JPA configuration
+├── security # AuthInterceptor, session keys
 ├── web
-│   ├── controller  # MVC Controllers
-│   ├── dto         # Form / View DTO
-│   ├── filter      # Filter objects (search, paging)
-│   ├── paging      # PageRequest / PageResponse
-│   └── util        # Url, Redirect helpers
-├── service         # Business logic
-├── dao             # Persistence layer
-├── entity          # JPA entities
-├── exception       # Custom business exceptions
-└── util            # Validation helpers
-```
+│ ├── controller # MVC controllers
+│ ├── dto # Form & view DTOs
+│ ├── filter # Search / filter objects
+│ ├── paging # PageRequest / PageResponse
+│ └── util # URL & redirect helpers
+├── service # Business logic layer
+├── dao # Persistence layer (JPA)
+├── entity # Domain entities
+├── exception # Custom business exceptions
+└── util # Validation helpers
+
+com.demo
+├── config # Spring MVC & JPA configuration
+├── security # AuthInterceptor, session keys
+├── web
+│ ├── controller # MVC controllers
+│ ├── dto # Form & view DTOs
+│ ├── filter # Search / filter objects
+│ ├── paging # PageRequest / PageResponse
+│ └── util # URL & redirect helpers
+├── service # Business logic layer
+├── dao # Persistence layer (JPA)
+├── entity # Domain entities
+├── exception # Custom business exceptions
+└── util # Validation helpers
+
 
 ---
 
-## ✅ Chức năng đã hoàn thành
+## ✅ Implemented Features
 
 ### 🔐 Authentication & Authorization
 
-* Login bằng email / password
-* Lưu session người dùng
-* **AuthInterceptor** bảo vệ `/admin/**`
-* Redirect về login kèm `next URL`
+- Login using email & password
+- Session-based authentication
+- **AuthInterceptor** protects `/admin/**`, `/cart/**`, `/orders/**`
+- Role-based authorization for admin endpoints
+- Redirect to login with preserved target URL
 
 ---
 
 ### 📦 Product Management (Admin)
 
-* CRUD Product
-* Phân trang chuẩn enterprise (`page`, `size`)
-* Sorting & filtering
-* Form validation (type mismatch + business rule)
+- Full CRUD for products
+- Pagination using enterprise-style paging model (`page`, `size`)
+- Sorting & filtering
+- **Soft delete** (inactive products instead of physical deletion)
+- Form validation:
+  - Type mismatch validation
+  - Business rule validation
 
 ---
 
-### 🛒 Cart & Order Module (HOÀN CHỈNH)
+### 🛒 Cart & Order Module (Complete)
 
 #### Cart
 
-* Tạo cart theo user (get-or-create)
-* Thêm sản phẩm vào cart
-* Cập nhật số lượng
-* Xóa item khỏi cart
-* Validate tồn kho (không vượt stock)
-* Tính tổng số lượng & tổng tiền
+- Cart is created per user (get-or-create strategy)
+- Add products to cart
+- Update item quantity
+- Remove items from cart
+- Clear entire cart
+- Stock validation (quantity cannot exceed available stock)
+- Cart data persisted in database (not session-only)
 
 #### Order
 
-* Checkout: **Cart → Order**
-* Persist `Order` & `OrderItem`
-* Gói toàn bộ trong **1 transaction**
+- Checkout flow: **Cart → Order**
+- Persist `Order` and `OrderItem`
+- **Price snapshot** stored at checkout time
+- Entire checkout process wrapped in **a single transaction**
+- Product stock is deducted on checkout
+- Order cancellation:
+  - Allowed only for valid order status
+  - Product stock is restored correctly
 
-➡️ Logic nghiệp vụ nằm **100% ở Service layer**
+➡️ All business logic is implemented **exclusively in the Service layer**
 
 ---
 
 ### ⚠️ Validation & Exception Handling
 
-* Validate input tại Controller
-* Validate nghiệp vụ tại Service
-* Custom exception:
+- Input validation at Controller level
+- Business validation at Service level
+- Custom business exceptions:
+  - `BadRequestException`
+  - `NotFoundException`
+  - `ForbiddenException`
+  - `ConflictException`
 
-  * `BadRequestException`
-  * `NotFoundException`
-  * `ForbiddenException`
-  * `ConflictException`
-* Xử lý lỗi tập trung, phân biệt:
-
-  * Lỗi bảo mật (403)
-  * Lỗi nghiệp vụ (redirect + flash message)
+Centralized error handling:
+- Security errors (403)
+- Business errors (redirect + flash message)
+- System errors (500)
 
 ---
 
 ### 📄 Paging Model (Enterprise-style)
 
-* `PageRequest`: page, size, sort, dir
-* `PageResponse`: items, totalItems, totalPages
-* JSP chỉ render dữ liệu, không chứa logic
+- `PageRequest`: page, size, sort, direction
+- `PageResponse`: items, totalItems, totalPages
+- JSP views only render data (no business logic in view)
 
 ---
 
-## 🧠 Điểm nổi bật
+## 🧠 Highlights
 
-* Không dùng Spring Boot → hiểu rõ Spring MVC core
-* Kiến trúc rõ ràng, dễ mở rộng
-* Cart / Order xử lý đúng transaction
-* Exception & validation chuẩn production mindset
-* Phù hợp làm nền để nâng cấp lên **Spring Boot + REST API**
-
----
-
-## 🚀 Hướng phát triển tiếp theo
-
-* Refactor sang Spring Boot
-* Expose REST API
-* Kết nối Angular frontend
-* Viết unit test cho Service / DAO
+- No Spring Boot → full control over Spring MVC configuration
+- Clear layered architecture with strong separation of concerns
+- Transaction-safe Cart & Order design
+- Business logic isolated from Controllers
+- Centralized exception & redirect strategy
+- Solid foundation for migration to **Spring Boot + REST API**
 
 ---
 
-## 👨‍💻 Tác giả
+## 🚀 Future Improvements
 
-**Đặng Quốc Thanh**
+- Refactor to Spring Boot
+- Expose RESTful APIs
+- Integrate Angular frontend
+- Add unit tests for Service and DAO layers
+
+---
+
+## 👨‍💻 Author
+
+**Đặng Quốc Thanh**  
 Java Web Developer
 
-> Project được xây dựng với mục tiêu *hiểu sâu – làm thật – code chuẩn enterprise*.
+> This project was built with the mindset: *understand deeply – implement realistically – design with enterprise standards*.
+
+
+
+
