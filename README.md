@@ -61,7 +61,7 @@ MySQL
 ---
 
 ## 📂 Project Structure (Simplified)
-
+```
 com.demo
 ├── config # Spring MVC & JPA configuration
 ├── security # AuthInterceptor, session keys
@@ -90,7 +90,7 @@ com.demo
 ├── dao # Persistence layer (JPA)
 ├── entity # Domain entities
 ├── exception # Custom business exceptions
-└── util # Validation helpers
+└── util # Validation helpers```
 
 
 ---
