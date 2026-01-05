@@ -1,0 +1,69 @@
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+		version="6.0">
+
+		<!-- Load Root Context -->
+
+		<!-- Spring context này sẽ đọc cấu hình bằng Java Config (@Configuration) -->
+		<context-param>
+				<param-name>contextClass</param-name>
+				<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+		</context-param>
+
+		<!-- Hãy load class PersistenceConfig để tạo bean Tức là Spring sẽ chạy: 
+				new PersistenceConfig(); và quét các @Bean, @Configuration, @ComponentScan -->
+		<context-param>
+				<param-name>contextConfigLocation</param-name>
+				<param-value>com.demo.config.PersistenceConfig</param-value>
+		</context-param>
+
+		<!-- Khi web app START → gọi listener này để KHỞI ĐỘNG Spring Root Context -->
+		<listener>
+				<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		</listener>
+
+		<!-- DispatcherServlet (Web/MVC context) -->
+
+		<!-- Tạo 1 servlet tên dispatcher, class DispatcherServlet -->
+		<servlet>
+				<servlet-name>dispatcher</servlet-name>
+				<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+				<!-- DispatcherServlet có Spring container RIÊNG: MVC Context -->
+				<init-param>
+						<param-name>contextClass</param-name>
+						<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+				</init-param>
+
+				<!-- Context này chỉ load WebMvcConfig -->
+				<init-param>
+						<param-name>contextConfigLocation</param-name>
+						<param-value>com.demo.config.WebMvcConfig</param-value>
+				</init-param>
+				<load-on-startup>1</load-on-startup>
+		</servlet>
+		<!-- Mọi request HTTP -> đi qua DispatcherServlet -->
+		<servlet-mapping>
+				<servlet-name>dispatcher</servlet-name>
+				<url-pattern>/</url-pattern>
+		</servlet-mapping>
+
+		<!-- UTF-8 -->
+		<filter>
+				<filter-name>encoding</filter-name>
+				<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+				<init-param>
+						<param-name>encoding</param-name>
+						<param-value>UTF-8</param-value>
+				</init-param>
+				<init-param>
+						<param-name>forceEncoding</param-name>
+						<param-value>true</param-value>
+				</init-param>
+		</filter>
+		<filter-mapping>
+				<filter-name>encoding</filter-name>
+				<url-pattern>/*</url-pattern>
+		</filter-mapping>
+
+</web-app>
