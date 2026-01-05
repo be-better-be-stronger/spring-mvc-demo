@@ -90,7 +90,8 @@ com.demo
 ├── dao # Persistence layer (JPA)
 ├── entity # Domain entities
 ├── exception # Custom business exceptions
-└── util # Validation helpers```
+└── util # Validation helpers
+```
 
 
 ---
