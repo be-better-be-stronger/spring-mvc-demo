@@ -28,17 +28,23 @@ This repository is used as a **main portfolio project** to demonstrate:
 
 ```
 Client (Browser)
-↓
+  |
+  v
 DispatcherServlet
-↓
-HandlerMapping → HandlerAdapter
-↓
+  |
+  v
+HandlerMapping -> HandlerAdapter
+  |
+  v
 @Controller
-↓
+  |
+  v
 Service Layer (@Transactional)
-↓
+  |
+  v
 DAO Layer (Hibernate / JPA)
-↓
+  |
+  v
 MySQL
 ```
 
@@ -63,21 +69,6 @@ MySQL
 
 ## 📂 Project Structure (Simplified)
 ```
-com.demo
-├── config # Spring MVC & JPA configuration
-├── security # AuthInterceptor, session keys
-├── web
-│ ├── controller # MVC controllers
-│ ├── dto # Form & view DTOs
-│ ├── filter # Search / filter objects
-│ ├── paging # PageRequest / PageResponse
-│ └── util # URL & redirect helpers
-├── service # Business logic layer
-├── dao # Persistence layer (JPA)
-├── entity # Domain entities
-├── exception # Custom business exceptions
-└── util # Validation helpers
-
 com.demo
 ├── config # Spring MVC & JPA configuration
 ├── security # AuthInterceptor, session keys
